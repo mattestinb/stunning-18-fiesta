@@ -19,9 +19,22 @@ const userSchema = new mongoose.Schema({
         ref: 'Thought' // Reference to the Thought model
     }],
     friends: [{
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'User' // Self-reference to the User model
-    }]
+        type: Schema.Types.ObjectId,
+        ref: "user",
+    },
+    ],
+    },
+    {
+        toJSON: {
+            virtuals: true,
+        },
+        id: false,
+    }
+);
+
+// Increases friend count in User model object when friends are added by a user
+userSchema.virtual("friendCount").get(function () {
+    return this.friends.length;
 });
 
 // Create the User model
